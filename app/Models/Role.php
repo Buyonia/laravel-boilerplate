@@ -10,23 +10,27 @@ use Illuminate\Support\Facades\DB;
 class Role extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $guarded=[];
+    protected $guarded = [];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function users(){
+    public function users()
+    {
         return $this->belongsToMany(User::class)->withTimestamps();
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function permissions(){
+    public function permissions()
+    {
         return $this->belongsToMany(Permission::class)->withTimestamps();
     }
 
     /**
+     * Attaches the given Permission to the Role
+     *
      * @param $permission
      * @return void
      */
@@ -37,6 +41,4 @@ class Role extends Model
 
         $this->permissions()->sync($permission, false);
     }
-
-
 }

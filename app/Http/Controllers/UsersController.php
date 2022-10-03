@@ -9,6 +9,7 @@ use App\Notifications\MailForNewAccount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+
 class UsersController extends Controller
 {
 
@@ -54,20 +55,18 @@ class UsersController extends Controller
         $hashedPassword = Hash::make($password);
 
         $user = new User;
-        $user->name=$request->name;
-        $user->email=$request->email;
-        $user->password=$hashedPassword;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $hashedPassword;
 
         try {
-            if($user->save()){
-                $user->notify(new MailForNewAccount($password,$user->name,$user->email));
+            if ($user->save()) {
+                $user->notify(new MailForNewAccount($password, $user->name, $user->email));
                 return redirect('user')->with('toast-success', 'New user created');
             }
-        }
-        catch(exception $e){
+        } catch (exception $e) {
             return redirect('user')->with('toast-error', 'Something wrong! please try again');
         }
-
     }
 
 
@@ -99,9 +98,9 @@ class UsersController extends Controller
         $hashedPassword = Hash::make($password);
 
         $user = User::find($id);
-        $user->name=$request->name;
-        $user->email=$request->email;
-        $user->password=$hashedPassword;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $hashedPassword;
         $user->update();
 
         return redirect('user')->with('toast-success', 'User updated');
@@ -116,15 +115,14 @@ class UsersController extends Controller
     {
         //soft delete
         $user = User::find($id);
-        if(auth()->user()->id == $user->id){
+        if (auth()->user()->id == $user->id) {
             return redirect()->back()->with('toast-error', 'You cant delete yourself!');
-        }elseif ($user->hasRole('super admin')){
+        } elseif ($user->hasRole('super admin')) {
             return redirect()->back()->with('toast-error', 'You cant delete super admin!');
-        }else{
+        } else {
             $user->delete();
             return redirect()->back()->with('toast-success', 'User deleted');
         }
-
     }
 
     /**
@@ -143,7 +141,7 @@ class UsersController extends Controller
      */
     public function restore($id)
     {
-        User::withTrashed()->find($id)->restore();
+        User::onlyTrashed()->find($id)->restore();
         return redirect()->back()->with('toast-success', 'User Restored');
     }
 
@@ -155,16 +153,15 @@ class UsersController extends Controller
     public function assignRoleForm($id)
     {
         $user = User::find($id);
-        if(auth()->user()->id == $id){
+        if (auth()->user()->id == $id) {
             return redirect()->back()->with('toast-error', 'You cant assign role for yourself!');
-        }elseif ($user->hasRole('super admin')){
+        } elseif ($user->hasRole('super admin')) {
             return redirect()->back()->with('toast-error', 'You cant assign role for super admin!');
-        }else{
+        } else {
             $roles = Role::all();
             $assigned_role_id = $user->roles;
             return view('users.assign_role', compact('user', 'roles', 'assigned_role_id'));
         }
-
     }
 
     /**

@@ -8,15 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Permission extends Model
 {
-    use HasFactory,SoftDeletes;
-    protected $guarded =[];
+    use HasFactory, SoftDeletes;
+    protected $guarded = [];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function roles(){
+    public function roles()
+    {
         return $this->belongsToMany(Role::class)->withTimestamps();
     }
-
-
 }

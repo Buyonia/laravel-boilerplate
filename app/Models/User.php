@@ -51,11 +51,14 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function roles(){
+    public function roles()
+    {
         return $this->belongsToMany(Role::class)->withTimestamps();
     }
 
     /**
+     * Checks if the User has the given Role
+     *
      * @param $role
      * @return bool
      */
@@ -68,6 +71,8 @@ class User extends Authenticatable
     }
 
     /**
+     * Attaches the given Role to the User
+     *
      * @param $role
      * @return void
      */
@@ -81,12 +86,12 @@ class User extends Authenticatable
 
 
     /**
-     * return all the permissions for this user
+     * return all the Permissions for this User
      *
      * @return mixed
      */
-    public function permissions(){
+    public function permissions()
+    {
         return $this->roles->map->permissions->flatten()->pluck('name')->unique();
     }
-
 }

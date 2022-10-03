@@ -36,7 +36,6 @@ class UserSeeder extends Seeder
         $user->email = "super@admin.com";
         $user->password = Hash::make('12345678');
         if ($user->save())
-            $user->assignRole('super admin');
+            $user->assignRole('super-admin');
     }
-
 }

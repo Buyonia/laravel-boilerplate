@@ -2,19 +2,17 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Permission;
-use App\Models\Role;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class PermissionMiddleware
+class Allow
 {
     /**
-     * Handle an incoming request.
+     * Gives access if authenticated user has any of the given roles
+     * otherwise return 403 unauthorized page
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse) $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next, ...$roles)

@@ -28,8 +28,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-
-        Gate::before(function ($user, $permission){
+        /**
+         * Gives access to the authenticated User
+         * if he/she has the given Permission
+         * otherwise return 403 unauthorized page
+         *
+         * @return bool
+         */
+        Gate::before(function ($user, $permission) {
             if ($user->permissions()->contains($permission))
                 return true;
         });

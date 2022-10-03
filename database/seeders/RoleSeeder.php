@@ -16,9 +16,12 @@ class RoleSeeder extends Seeder
     public function run()
     {
         $role = new Role();
-        $role->name = "super admin";
-        if ($role->save())
+        $role->name = "super-admin";
+
+        if ($role->save()) {
             $role->allowTo('force-delete');
+            $role->allowTo('role-management');
+        }
 
         $role = new Role();
         $role->name = "admin";
@@ -30,8 +33,5 @@ class RoleSeeder extends Seeder
         $role->name = "user";
         if ($role->save())
             $role->allowTo('access');
-
-
-
     }
 }

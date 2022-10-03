@@ -26,5 +26,9 @@ class PermissionSeeder extends Seeder
         $permission = new Permission();
         $permission->name = "force-delete";
         $permission->save();
+
+        $permission = new Permission();
+        $permission->name = "role-management";
+        $permission->save();
     }
 }

@@ -41,10 +41,10 @@ class RoleController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
-
         ]);
 
         $user = Role::create($validated);
+
         return redirect('role')->with('toast-success', 'New role created');
     }
 
@@ -91,7 +91,6 @@ class RoleController extends Controller
             $role->delete();
             return redirect()->back()->with('toast-success', 'Role deleted');
         }
-
     }
 
     /**
